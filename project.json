@@ -1,0 +1,78 @@
+{
+  "name": "illshaad-pitch",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "./src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/illshaad-pitch"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "illshaad-pitch:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "illshaad-pitch:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "illshaad-pitch:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "illshaad-pitch:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "illshaad-pitch:build:development"
+        },
+        "production": {
+          "buildTarget": "illshaad-pitch:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "coverage/illshaad-pitch"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["./src/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "illshaad-pitch:build"
+      }
+    }
+  },
+  "tags": []
+}
