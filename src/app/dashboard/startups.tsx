@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -20,6 +20,9 @@ export default function Startups({
   isSelected: boolean;
   setSelectedStartupId: React.Dispatch<React.SetStateAction<Startup['_id'][]>>;
 }) {
+  const [expandedDescription, setExpandedDescription] =
+    useState<boolean>(false);
+
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
   const { name, description, _id } = startup;
@@ -43,13 +46,12 @@ export default function Startups({
       setSelectedStartupId([...selectedStartupId, startupId]);
     }
   };
-
-  const shortenDescription = (description: string) => {
-    if (description.length >= 100) {
-      return description.substring(0, 30) + '...';
-    }
-    return description;
+  const toggleDescription = () => {
+    setExpandedDescription(!expandedDescription);
   };
+
+  const shortenedDescription =
+    description.length >= 100 ? description.substring(0, 30) : description;
 
   return (
     <Paper
@@ -57,8 +59,8 @@ export default function Startups({
         boxShadow: isSelected ? 5 : 'none',
         mt: 2,
         p: 2,
-        height: 200,
         width: 350,
+        overflow: 'auto',
       }}
     >
       <Checkbox {...label} onClick={() => toggleSelectedStartup(startup._id)} />
@@ -69,15 +71,22 @@ export default function Startups({
           src={Picture}
           style={{ width: 60, height: 60, borderRadius: '50%' }}
         />
-        <Grid>
-          <Typography component="h1" variant="h6" sx={{ ml: 2 }}>
-            {name}
-          </Typography>
-        </Grid>
+
+        <Typography component="h1" variant="h6" sx={{ ml: 2 }}>
+          {name}
+        </Typography>
       </div>
 
-      <Typography variant="subtitle1" gutterBottom sx={{ ml: 2, mt: 2 }}>
-        {shortenDescription(description)}
+      <Typography variant="subtitle1" sx={{ ml: 2, mt: 2 }}>
+        {expandedDescription ? description : shortenedDescription}
+        {description.length >= 100 && (
+          <span
+            onClick={toggleDescription}
+            style={{ cursor: 'pointer', color: 'blue' }}
+          >
+            {expandedDescription ? ' Réduire' : ' ...'}
+          </span>
+        )}
       </Typography>
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
