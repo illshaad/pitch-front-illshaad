@@ -44,6 +44,13 @@ export default function Startups({
     }
   };
 
+  const shortenDescription = (description: string) => {
+    if (description.length >= 100) {
+      return description.substring(0, 30) + '...';
+    }
+    return description;
+  };
+
   return (
     <Paper
       sx={{
@@ -52,20 +59,9 @@ export default function Startups({
         p: 2,
         height: 200,
         width: 350,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        overflow: 'hidden',
       }}
     >
       <Checkbox {...label} onClick={() => toggleSelectedStartup(startup._id)} />
-
-      {/* <input
-        type="checkbox"
-        className="cursor-pointer w-4 h-4"
-       
-      /> */}
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img
@@ -81,7 +77,7 @@ export default function Startups({
       </div>
 
       <Typography variant="subtitle1" gutterBottom sx={{ ml: 2, mt: 2 }}>
-        {description}
+        {shortenDescription(description)}
       </Typography>
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
